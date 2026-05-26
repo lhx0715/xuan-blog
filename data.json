@@ -1,0 +1,226 @@
+{
+  "articles": [
+    {
+      "id": 1,
+      "title": "从零搭建 AI 智能备忘录助手",
+      "excerpt": "使用 Django + React + OpenAI API 构建智能备忘录应用，实现语音识别、自动分类和智能提醒功能。本文记录完整的开发流程和踩坑经验。",
+      "category": "ai",
+      "date": "2025-05-20",
+      "readTime": "15 分钟",
+      "tags": [
+        "Django",
+        "React",
+        "OpenAI",
+        "NLP"
+      ],
+      "icon": "fas fa-brain",
+      "featured": true,
+      "url": "#"
+    },
+    {
+      "id": 2,
+      "title": "React + Vite + Tailwind CSS 项目实战",
+      "excerpt": "分享使用 React + Vite + Tailwind CSS 搭建现代化前端项目的最佳实践，包括项目结构、组件设计、状态管理和性能优化技巧。",
+      "category": "frontend",
+      "date": "2025-05-15",
+      "readTime": "12 分钟",
+      "tags": [
+        "React",
+        "Vite",
+        "Tailwind CSS",
+        "TypeScript"
+      ],
+      "icon": "fab fa-react",
+      "featured": false,
+      "url": "#"
+    },
+    {
+      "id": 3,
+      "title": "AI 音乐创作入门：用 Suno 生成你的第一首歌",
+      "excerpt": "探索 AI 音乐生成的奥秘，使用 Suno AI 创作属于自己的音乐作品。本文介绍提示词技巧、风格选择和后期处理方法。",
+      "category": "ai",
+      "date": "2025-05-10",
+      "readTime": "8 分钟",
+      "tags": [
+        "Suno AI",
+        "音乐生成",
+        "创意编程"
+      ],
+      "icon": "fas fa-music",
+      "featured": false,
+      "url": "#"
+    },
+    {
+      "id": 4,
+      "title": "Django REST Framework 实战指南",
+      "excerpt": "深入学习 Django REST Framework 的核心概念，包括序列化器、视图集、路由配置、权限控制和 API 文档生成等高级用法。",
+      "category": "backend",
+      "date": "2025-05-05",
+      "readTime": "18 分钟",
+      "tags": [
+        "Django",
+        "REST API",
+        "Python",
+        "MySQL"
+      ],
+      "icon": "fab fa-python",
+      "featured": false,
+      "url": "#"
+    },
+    {
+      "id": 5,
+      "title": "Docker 容器化部署实战",
+      "excerpt": "学习使用 Docker 容器化部署 Web 应用，包括 Dockerfile 编写、docker-compose 配置、镜像优化和生产环境最佳实践。",
+      "category": "devops",
+      "date": "2025-04-28",
+      "readTime": "14 分钟",
+      "tags": [
+        "Docker",
+        "容器化",
+        "DevOps"
+      ],
+      "icon": "fab fa-docker",
+      "featured": false,
+      "url": "#"
+    },
+    {
+      "id": 6,
+      "title": "A* 算法详解与 Python 实现",
+      "excerpt": "深入理解 A* 寻路算法的原理，使用 Python 实现完整的路径规划，并通过可视化展示算法的执行过程和优化技巧。",
+      "category": "algorithm",
+      "date": "2025-04-20",
+      "readTime": "10 分钟",
+      "tags": [
+        "A*算法",
+        "Python",
+        "路径规划",
+        "数据结构"
+      ],
+      "icon": "fas fa-project-diagram",
+      "featured": false,
+      "url": "#"
+    }
+  ],
+  "works": [
+    {
+      "id": 1,
+      "title": "AI 智能备忘录助手",
+      "description": "集成 AI 技术的智能备忘录应用，支持语音备忘、自动分类、智能提醒和内容总结。使用 NLP 实现文本分类与标签推荐，集成语音识别和 OCR 能力。",
+      "category": "ai",
+      "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800",
+      "tech": [
+        "Django",
+        "React",
+        "OpenAI",
+        "MySQL",
+        "Redis",
+        "Docker"
+      ],
+      "github": "https://github.com/lhx0715/notebook-parent",
+      "demo": "#",
+      "featured": true,
+      "status": "已上线"
+    },
+    {
+      "id": 2,
+      "title": "我的游戏天地",
+      "description": "个人游戏作品展示网站，采用现代化 UI 设计，展示自主开发的各类小游戏。响应式布局，支持多端适配。",
+      "category": "web",
+      "image": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800",
+      "tech": [
+        "React",
+        "TypeScript",
+        "Vite",
+        "Tailwind CSS"
+      ],
+      "github": "https://github.com/lhx0715/my-gaming-website",
+      "demo": "#",
+      "featured": false,
+      "status": "已上线"
+    },
+    {
+      "id": 3,
+      "title": "轻食之家 / LUMINA LIGHT",
+      "description": "健康轻食品牌网站设计，包含两套风格方案——温暖活力版和极简高级版。涵盖食谱展示、餐单定制、配送信息等完整页面。",
+      "category": "design",
+      "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800",
+      "tech": [
+        "HTML",
+        "Tailwind CSS",
+        "JavaScript",
+        "Font Awesome"
+      ],
+      "github": "#",
+      "demo": "#",
+      "featured": false,
+      "status": "已完成"
+    },
+    {
+      "id": 4,
+      "title": "YOLOv8 目标检测",
+      "description": "基于 Ultralytics YOLOv8 的目标检测实践，进行模型训练、推理和部署的完整流程探索。",
+      "category": "ai",
+      "image": "https://images.unsplash.com/photo-1676299081847-824916de0307?w=800",
+      "tech": [
+        "Python",
+        "PyTorch",
+        "YOLOv8",
+        "OpenCV"
+      ],
+      "github": "#",
+      "demo": "#",
+      "featured": false,
+      "status": "进行中"
+    },
+    {
+      "id": 5,
+      "title": "AI 音乐创作",
+      "description": "利用 AI 工具进行音乐创作实验，作品包括《追寻》《再也不见》《期末周的逃避》等，探索 AI 在创意领域的无限可能。",
+      "category": "creative",
+      "image": "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800",
+      "tech": [
+        "Suno AI",
+        "音频处理",
+        "剪映"
+      ],
+      "github": "#",
+      "demo": "#",
+      "featured": false,
+      "status": "持续更新"
+    },
+    {
+      "id": 6,
+      "title": "个人博客网站",
+      "description": "使用纯 HTML/CSS/JS 搭建的现代化个人博客，支持暗色模式、响应式设计，部署在 GitHub Pages。",
+      "category": "web",
+      "image": "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800",
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "GitHub Pages"
+      ],
+      "github": "https://github.com/lhx0715/xuan-blog",
+      "demo": "https://lhx0715.github.io/xuan-blog/",
+      "featured": true,
+      "status": "已上线"
+    }
+  ],
+  "categories": {
+    "articles": {
+      "all": "全部",
+      "ai": "AI/ML",
+      "frontend": "前端开发",
+      "backend": "后端开发",
+      "devops": "开发工具",
+      "algorithm": "算法"
+    },
+    "works": {
+      "all": "全部",
+      "ai": "AI/ML",
+      "web": "Web开发",
+      "design": "设计",
+      "creative": "创意"
+    }
+  }
+}

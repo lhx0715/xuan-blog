@@ -20,7 +20,8 @@
                 <a href="#about" class="nav-link">关于我</a>
                 <a href="#skills" class="nav-link">技能</a>
                 <a href="#projects" class="nav-link">项目</a>
-                <a href="#tech-sharing" class="nav-link">技术分享</a>
+                <a href="#works" class="nav-link">作品</a>
+                <a href="#tech-sharing" class="nav-link">博客</a>
                 <a href="#achievements" class="nav-link">荣誉</a>
                 <a href="#contact" class="nav-link">联系</a>
             </div>
@@ -354,7 +355,7 @@ me.say_hi()</code></pre>
     <section id="tech-sharing" class="section">
         <div class="container">
             <h2 class="section-title">
-                <span class="title-number">04.</span> 技术分享
+                <span class="title-number">05.</span> 技术分享
             </h2>
             <p class="section-subtitle">记录学习笔记，分享技术心得</p>
             
@@ -516,10 +517,75 @@ me.say_hi()</code></pre>
         </div>
     </section>
 
+    
+    <!-- 作品展示 -->
+    <section id="works" class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="title-number">04.</span> 作品展示
+            </h2>
+            <p class="section-subtitle">精选项目作品，展示技术实力</p>
+            
+            <!-- 分类标签 -->
+            <div class="works-tags">
+                <button class="works-tag active" data-filter="all">全部</button>
+                <button class="works-tag" data-filter="ai">AI/ML</button>
+                <button class="works-tag" data-filter="web">Web开发</button>
+                <button class="works-tag" data-filter="design">设计</button>
+                <button class="works-tag" data-filter="creative">创意</button>
+            </div>
+            
+            <!-- 作品网格 -->
+            <div class="works-grid" id="worksGrid">
+                <!-- 作品将通过 JavaScript 动态加载 -->
+            </div>
+            
+            <!-- 加载更多按钮 -->
+            <div class="works-more">
+                <button class="btn btn-outline" id="loadMoreWorks">
+                    <i class="fas fa-plus"></i> 加载更多作品
+                </button>
+            </div>
+        </div>
+    </section>
+
+    
+    <!-- 技术分享 -->
+    <section id="tech-sharing" class="section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="title-number">05.</span> 技术分享
+            </h2>
+            <p class="section-subtitle">记录学习笔记，分享技术心得</p>
+            
+            <!-- 分类标签 -->
+            <div class="tech-tags">
+                <button class="tech-tag active" data-filter="all">全部</button>
+                <button class="tech-tag" data-filter="ai">AI/ML</button>
+                <button class="tech-tag" data-filter="frontend">前端开发</button>
+                <button class="tech-tag" data-filter="backend">后端开发</button>
+                <button class="tech-tag" data-filter="devops">开发工具</button>
+                <button class="tech-tag" data-filter="algorithm">算法</button>
+            </div>
+            
+            <!-- 文章列表 -->
+            <div class="tech-grid" id="articlesGrid">
+                <!-- 文章将通过 JavaScript 动态加载 -->
+            </div>
+            
+            <!-- 加载更多按钮 -->
+            <div class="tech-more">
+                <button class="btn btn-outline" id="loadMoreTech">
+                    <i class="fas fa-plus"></i> 加载更多文章
+                </button>
+            </div>
+        </div>
+    </section>
+
     <section id="achievements" class="section section-alt">
         <div class="container">
             <h2 class="section-title">
-                <span class="title-number">05.</span> 荣誉 & 成就
+                <span class="title-number">06.</span> 荣誉 & 成就
             </h2>
             <div class="achievements-grid">
                 <div class="achievement-card">
@@ -578,7 +644,7 @@ me.say_hi()</code></pre>
     <section id="timeline" class="section">
         <div class="container">
             <h2 class="section-title">
-                <span class="title-number">06.</span> 我的旅程
+                <span class="title-number">07.</span> 我的旅程
             </h2>
             <div class="timeline">
                 <div class="timeline-item">
@@ -629,7 +695,7 @@ me.say_hi()</code></pre>
     <section id="contact" class="section section-alt">
         <div class="container">
             <h2 class="section-title">
-                <span class="title-number">07.</span> 联系我
+                <span class="title-number">08.</span> 联系我
             </h2>
             <div class="contact-content">
                 <div class="contact-text">
@@ -665,6 +731,11 @@ me.say_hi()</code></pre>
                 <p class="footer-text">
                     <span class="logo-bracket">&lt;</span>Jax<span class="logo-bracket"> /&gt;</span>
                     &nbsp;·&nbsp; 用代码构建有趣的世界
+                </p>
+                <p class="footer-links" style="margin-bottom: 1rem;">
+                    <a href="admin.html" style="color: var(--accent); text-decoration: none; margin: 0 1rem;">
+                        <i class="fas fa-cog"></i> 管理后台
+                    </a>
                 </p>
                 <p class="footer-copyright">
                     &copy; 2025 李昊烜 · Designed &amp; Built with ❤️

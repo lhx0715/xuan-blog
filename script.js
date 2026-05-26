@@ -153,91 +153,132 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 
-// ==================== 技术分享功能 ====================
 
-// 分类筛选功能
-function initTechFilter() {
-    const filterButtons = document.querySelectorAll('.tech-tag');
-    const techCards = document.querySelectorAll('.tech-card');
-    
-    filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // 移除所有按钮的 active 状态
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            // 添加当前按钮的 active 状态
-            button.classList.add('active');
-            
-            const filter = button.dataset.filter;
-            
-            techCards.forEach(card => {
-                if (filter === 'all' || card.dataset.category === filter) {
-                    card.style.display = 'block';
-                    card.style.animation = 'fadeInUp 0.6s ease forwards';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-    });
+
+// ==================== 动态加载功能 ====================
+
+// 全局数据存储
+let blogData = {
+    articles: [],
+    works: [],
+    categories: {}
+};
+
+// 加载数据
+async function loadBlogData() {
+    try {
+        // 首先尝试从 localStorage 加载
+        const stored = localStorage.getItem('blogData');
+        if (stored) {
+            blogData = JSON.parse(stored);
+            console.log('从 localStorage 加载数据');
+        } else {
+            // 如果没有，从 data.json 加载
+            const response = await fetch('data.json');
+            blogData = await response.json();
+            localStorage.setItem('blogData', JSON.stringify(blogData));
+            console.log('从 data.json 加载数据');
+        }
+        
+        renderArticles();
+        renderWorks();
+    } catch (error) {
+        console.error('加载数据失败:', error);
+        // 如果加载失败，使用默认数据
+        loadDefaultData();
+    }
 }
 
-// 加载更多文章功能
-function initLoadMore() {
-    const loadMoreBtn = document.getElementById('loadMoreTech');
-    if (!loadMoreBtn) return;
-    
-    // 模拟文章数据
-    const moreArticles = [
-        {
-            category: 'ai',
-            icon: 'fas fa-eye',
-            date: '2025-04-15',
-            title: 'YOLOv8 目标检测实战：从训练到部署',
-            excerpt: '使用 Ultralytics YOLOv8 进行目标检测模型训练，包括数据集准备、模型调优、推理优化和部署上线的完整流程。',
-            categoryText: 'AI/ML',
-            readTime: '20 分钟',
-            tags: ['YOLOv8', 'PyTorch', '计算机视觉', '模型部署']
-        },
-        {
-            category: 'frontend',
-            icon: 'fas fa-palette',
-            date: '2025-04-10',
-            title: 'Tailwind CSS 高级技巧与最佳实践',
-            excerpt: '深入探索 Tailwind CSS 的高级用法，包括自定义配置、组件提取、响应式设计、暗色模式和性能优化等实用技巧。',
-            categoryText: '前端开发',
-            readTime: '11 分钟',
-            tags: ['Tailwind CSS', 'CSS', '响应式设计', 'UI/UX']
-        },
-        {
-            category: 'backend',
-            icon: 'fas fa-database',
-            date: '2025-04-05',
-            title: 'MySQL 性能优化：索引设计与查询调优',
-            excerpt: '学习 MySQL 数据库性能优化的核心技巧，包括索引原理、慢查询分析、执行计划解读和常见优化策略。',
-            categoryText: '后端开发',
-            readTime: '16 分钟',
-            tags: ['MySQL', '数据库', '性能优化', '索引']
+// 加载默认数据（备用）
+function loadDefaultData() {
+    blogData = {
+        articles: [
+            {
+                id: 1,
+                title: "从零搭建 AI 智能备忘录助手",
+                excerpt: "使用 Django + React + OpenAI API 构建智能备忘录应用，实现语音识别、自动分类和智能提醒功能。",
+                category: "ai",
+                date: "2025-05-20",
+                readTime: "15 分钟",
+                tags: ["Django", "React", "OpenAI", "NLP"],
+                icon: "fas fa-brain",
+                featured: true,
+                url: "#"
+            },
+            {
+                id: 2,
+                title: "React + Vite + Tailwind CSS 项目实战",
+                excerpt: "分享使用 React + Vite + Tailwind CSS 搭建现代化前端项目的最佳实践。",
+                category: "frontend",
+                date: "2025-05-15",
+                readTime: "12 分钟",
+                tags: ["React", "Vite", "Tailwind CSS"],
+                icon: "fab fa-react",
+                featured: false,
+                url: "#"
+            }
+        ],
+        works: [
+            {
+                id: 1,
+                title: "AI 智能备忘录助手",
+                description: "集成 AI 技术的智能备忘录应用，支持语音备忘、自动分类、智能提醒和内容总结。",
+                category: "ai",
+                image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800",
+                tech: ["Django", "React", "OpenAI", "MySQL"],
+                github: "https://github.com/lhx0715/notebook-parent",
+                demo: "#",
+                featured: true,
+                status: "已上线"
+            },
+            {
+                id: 2,
+                title: "个人博客网站",
+                description: "使用纯 HTML/CSS/JS 搭建的现代化个人博客，支持暗色模式、响应式设计。",
+                category: "web",
+                image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800",
+                tech: ["HTML", "CSS", "JavaScript", "GitHub Pages"],
+                github: "https://github.com/lhx0715/xuan-blog",
+                demo: "https://lhx0715.github.io/xuan-blog/",
+                featured: true,
+                status: "已上线"
+            }
+        ],
+        categories: {
+            articles: {
+                all: "全部",
+                ai: "AI/ML",
+                frontend: "前端开发",
+                backend: "后端开发",
+                devops: "开发工具",
+                algorithm: "算法"
+            },
+            works: {
+                all: "全部",
+                ai: "AI/ML",
+                web: "Web开发",
+                design: "设计",
+                creative: "创意"
+            }
         }
-    ];
+    };
     
-    let loadCount = 0;
+    renderArticles();
+    renderWorks();
+}
+
+// 渲染文章列表
+function renderArticles(filter = 'all') {
+    const container = document.getElementById('articlesGrid');
+    if (!container) return;
     
-    loadMoreBtn.addEventListener('click', () => {
-        if (loadCount >= moreArticles.length) {
-            loadMoreBtn.textContent = '没有更多文章了';
-            loadMoreBtn.disabled = true;
-            return;
-        }
-        
-        const techGrid = document.querySelector('.tech-grid');
-        const article = moreArticles[loadCount];
-        
-        const newCard = document.createElement('article');
-        newCard.className = 'tech-card';
-        newCard.dataset.category = article.category;
-        newCard.style.animation = 'fadeInUp 0.6s ease forwards';
-        
-        newCard.innerHTML = `
+    let filteredArticles = blogData.articles;
+    if (filter !== 'all') {
+        filteredArticles = blogData.articles.filter(a => a.category === filter);
+    }
+    
+    container.innerHTML = filteredArticles.map(article => `
+        <article class="tech-card" data-category="${article.category}">
             <div class="tech-card-header">
                 <div class="tech-icon"><i class="${article.icon}"></i></div>
                 <span class="tech-date">${article.date}</span>
@@ -245,29 +286,141 @@ function initLoadMore() {
             <h3 class="tech-title">${article.title}</h3>
             <p class="tech-excerpt">${article.excerpt}</p>
             <div class="tech-meta">
-                <span class="tech-category">${article.categoryText}</span>
+                <span class="tech-category">${getCategoryName(article.category, 'articles')}</span>
                 <span class="tech-read-time"><i class="fas fa-clock"></i> ${article.readTime}</span>
             </div>
             <div class="tech-tags-list">
                 ${article.tags.map(tag => `<span>${tag}</span>`).join('')}
             </div>
-            <a href="#" class="tech-link">阅读全文 <i class="fas fa-arrow-right"></i></a>
-        `;
-        
-        techGrid.appendChild(newCard);
-        loadCount++;
-        
-        if (loadCount >= moreArticles.length) {
-            loadMoreBtn.innerHTML = '<i class="fas fa-check"></i> 已加载全部文章';
-            loadMoreBtn.disabled = true;
-            loadMoreBtn.style.opacity = '0.6';
-        }
+            <a href="${article.url}" class="tech-link" ${article.url !== '#' ? 'target="_blank"' : ''}>
+                阅读全文 <i class="fas fa-arrow-right"></i>
+            </a>
+        </article>
+    `).join('');
+}
+
+// 渲染作品列表
+function renderWorks(filter = 'all') {
+    const container = document.getElementById('worksGrid');
+    if (!container) return;
+    
+    let filteredWorks = blogData.works;
+    if (filter !== 'all') {
+        filteredWorks = blogData.works.filter(w => w.category === filter);
+    }
+    
+    container.innerHTML = filteredWorks.map(work => `
+        <div class="work-card" data-category="${work.category}">
+            ${work.featured ? '<div class="work-featured"><i class="fas fa-star"></i> 精选</div>' : ''}
+            <div class="work-image-wrapper">
+                <img src="${work.image}" alt="${work.title}" class="work-image" loading="lazy">
+                <span class="work-status ${getStatusClass(work.status)}">${work.status}</span>
+            </div>
+            <div class="work-content">
+                <span class="work-category">${getCategoryName(work.category, 'works')}</span>
+                <h3 class="work-title">${work.title}</h3>
+                <p class="work-description">${work.description}</p>
+                <div class="work-tech">
+                    ${work.tech.map(t => `<span>${t}</span>`).join('')}
+                </div>
+                <div class="work-links">
+                    ${work.github && work.github !== '#' ? `
+                        <a href="${work.github}" target="_blank" class="work-link github">
+                            <i class="fab fa-github"></i> 源码
+                        </a>
+                    ` : ''}
+                    ${work.demo && work.demo !== '#' ? `
+                        <a href="${work.demo}" target="_blank" class="work-link demo">
+                            <i class="fas fa-external-link-alt"></i> 演示
+                        </a>
+                    ` : ''}
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// 获取分类名称
+function getCategoryName(category, type) {
+    return blogData.categories[type]?.[category] || category;
+}
+
+// 获取状态样式类
+function getStatusClass(status) {
+    const statusMap = {
+        '已上线': 'online',
+        '进行中': 'progress',
+        '已完成': 'completed',
+        '持续更新': 'updating'
+    };
+    return statusMap[status] || 'online';
+}
+
+// 初始化分类筛选
+function initWorksFilter() {
+    const filterButtons = document.querySelectorAll('.works-tag');
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            const filter = button.dataset.filter;
+            renderWorks(filter);
+        });
     });
 }
 
-// 初始化技术分享功能
+// 初始化文章筛选
+function initArticlesFilter() {
+    const filterButtons = document.querySelectorAll('.tech-tag');
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            const filter = button.dataset.filter;
+            renderArticles(filter);
+        });
+    });
+}
+
+// 初始化加载更多功能
+function initLoadMore() {
+    // 文章加载更多
+    const loadMoreTechBtn = document.getElementById('loadMoreTech');
+    if (loadMoreTechBtn) {
+        loadMoreTechBtn.addEventListener('click', () => {
+            // 这里可以实现加载更多的逻辑
+            alert('所有文章已加载完毕');
+        });
+    }
+    
+    // 作品加载更多
+    const loadMoreWorksBtn = document.getElementById('loadMoreWorks');
+    if (loadMoreWorksBtn) {
+        loadMoreWorksBtn.addEventListener('click', () => {
+            alert('所有作品已加载完毕');
+        });
+    }
+}
+
+// 监听 localStorage 变化（用于管理后台更新后自动刷新）
+window.addEventListener('storage', (e) => {
+    if (e.key === 'blogData') {
+        blogData = JSON.parse(e.newValue);
+        renderArticles();
+        renderWorks();
+        console.log('数据已更新');
+    }
+});
+
+// 初始化
 document.addEventListener('DOMContentLoaded', () => {
-    initTechFilter();
+    loadBlogData();
+    initWorksFilter();
+    initArticlesFilter();
     initLoadMore();
 });
 

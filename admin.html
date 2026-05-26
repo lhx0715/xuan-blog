@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客管理后台 - Jax</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #6366f1;
+            --accent-secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --border: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* 头部导航 */
+        .admin-header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .admin-nav {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .admin-nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .admin-nav a:hover,
+        .admin-nav a.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* 主要内容 */
+        .main-content {
+            padding: 2rem 0;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title i {
+            color: var(--accent);
+        }
+
+        /* 操作按钮 */
+        .actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* 内容卡片 */
+        .content-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .content-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .content-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .card-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--accent);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* 模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .modal-close:hover {
+            color: var(--danger);
+        }
+
+        /* 表单 */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-help {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+        }
+
+        /* 标签输入 */
+        .tags-input {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            min-height: 50px;
+        }
+
+        .tags-input .tag {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .tags-input .tag button {
+            background: none;
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+            padding: 0;
+            font-size: 0.9rem;
+        }
+
+        .tags-input input {
+            flex: 1;
+            min-width: 100px;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1rem;
+            outline: none;
+        }
+
+        /* 统计信息 */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .admin-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .admin-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header class="admin-header">
+        <div class="admin-logo">
+            <i class="fas fa-cog"></i> 博客管理后台
+        </div>
+        <nav class="admin-nav">
+            <a href="#articles" class="active" onclick="showSection('articles')">
+                <i class="fas fa-newspaper"></i> 文章管理
+            </a>
+            <a href="#works" onclick="showSection('works')">
+                <i class="fas fa-code"></i> 作品管理
+            </a>
+            <a href="index.html">
+                <i class="fas fa-eye"></i> 查看博客
+            </a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- 统计信息 -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="articleCount">0</div>
+                <div class="stat-label">文章总数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="workCount">0</div>
+                <div class="stat-label">作品总数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="featuredCount">0</div>
+                <div class="stat-label">精选内容</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="categoryCount">0</div>
+                <div class="stat-label">分类数量</div>
+            </div>
+        </div>
+
+        <!-- 文章管理 -->
+        <section id="articles-section" class="main-content">
+            <h2 class="section-title">
+                <i class="fas fa-newspaper"></i> 文章管理
+            </h2>
+            <div class="actions">
+                <button class="btn btn-primary" onclick="openArticleModal()">
+                    <i class="fas fa-plus"></i> 添加文章
+                </button>
+                <button class="btn btn-outline" onclick="exportData('articles')">
+                    <i class="fas fa-download"></i> 导出数据
+                </button>
+            </div>
+            <div class="content-grid" id="articlesList">
+                <!-- 文章列表将通过 JavaScript 动态生成 -->
+            </div>
+        </section>
+
+        <!-- 作品管理 -->
+        <section id="works-section" class="main-content" style="display: none;">
+            <h2 class="section-title">
+                <i class="fas fa-code"></i> 作品管理
+            </h2>
+            <div class="actions">
+                <button class="btn btn-primary" onclick="openWorkModal()">
+                    <i class="fas fa-plus"></i> 添加作品
+                </button>
+                <button class="btn btn-outline" onclick="exportData('works')">
+                    <i class="fas fa-download"></i> 导出数据
+                </button>
+            </div>
+            <div class="content-grid" id="worksList">
+                <!-- 作品列表将通过 JavaScript 动态生成 -->
+            </div>
+        </section>
+    </div>
+
+    <!-- 文章编辑模态框 -->
+    <div class="modal" id="articleModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="articleModalTitle">添加文章</h3>
+                <button class="modal-close" onclick="closeArticleModal()">&times;</button>
+            </div>
+            <form id="articleForm" onsubmit="saveArticle(event)">
+                <input type="hidden" id="articleId">
+                <div class="form-group">
+                    <label class="form-label">文章标题 *</label>
+                    <input type="text" class="form-input" id="articleTitle" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">文章摘要 *</label>
+                    <textarea class="form-textarea" id="articleExcerpt" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">分类 *</label>
+                    <select class="form-select" id="articleCategory" required>
+                        <option value="ai">AI/ML</option>
+                        <option value="frontend">前端开发</option>
+                        <option value="backend">后端开发</option>
+                        <option value="devops">开发工具</option>
+                        <option value="algorithm">算法</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">发布日期 *</label>
+                    <input type="date" class="form-input" id="articleDate" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">阅读时间</label>
+                    <input type="text" class="form-input" id="articleReadTime" placeholder="例如：10 分钟">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">标签（用逗号分隔）</label>
+                    <input type="text" class="form-input" id="articleTags" placeholder="例如：React, TypeScript, Vite">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">图标类名</label>
+                    <input type="text" class="form-input" id="articleIcon" placeholder="例如：fas fa-brain">
+                    <p class="form-help">使用 Font Awesome 图标类名</p>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">文章链接</label>
+                    <input type="text" class="form-input" id="articleUrl" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">
+                        <input type="checkbox" id="articleFeatured"> 设为精选文章
+                    </label>
+                </div>
+                <div class="actions">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i> 保存
+                    </button>
+                    <button type="button" class="btn btn-outline" onclick="closeArticleModal()">
+                        取消
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 作品编辑模态框 -->
+    <div class="modal" id="workModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="workModalTitle">添加作品</h3>
+                <button class="modal-close" onclick="closeWorkModal()">&times;</button>
+            </div>
+            <form id="workForm" onsubmit="saveWork(event)">
+                <input type="hidden" id="workId">
+                <div class="form-group">
+                    <label class="form-label">作品名称 *</label>
+                    <input type="text" class="form-input" id="workTitle" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">作品描述 *</label>
+                    <textarea class="form-textarea" id="workDescription" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">分类 *</label>
+                    <select class="form-select" id="workCategory" required>
+                        <option value="ai">AI/ML</option>
+                        <option value="web">Web开发</option>
+                        <option value="design">设计</option>
+                        <option value="creative">创意</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">封面图片 URL</label>
+                    <input type="text" class="form-input" id="workImage" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">技术栈（用逗号分隔）</label>
+                    <input type="text" class="form-input" id="workTech" placeholder="例如：React, Django, MySQL">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">GitHub 链接</label>
+                    <input type="text" class="form-input" id="workGithub" placeholder="https://github.com/...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">演示链接</label>
+                    <input type="text" class="form-input" id="workDemo" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">项目状态</label>
+                    <select class="form-select" id="workStatus">
+                        <option value="已上线">已上线</option>
+                        <option value="已完成">已完成</option>
+                        <option value="进行中">进行中</option>
+                        <option value="持续更新">持续更新</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">
+                        <input type="checkbox" id="workFeatured"> 设为精选作品
+                    </label>
+                </div>
+                <div class="actions">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i> 保存
+                    </button>
+                    <button type="button" class="btn btn-outline" onclick="closeWorkModal()">
+                        取消
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 全局数据
+        let blogData = {
+            articles: [],
+            works: [],
+            categories: {}
+        };
+
+        // 加载数据
+        async function loadData() {
+            try {
+                const response = await fetch('data.json');
+                blogData = await response.json();
+                renderArticles();
+                renderWorks();
+                updateStats();
+            } catch (error) {
+                console.error('加载数据失败:', error);
+                alert('加载数据失败，请刷新页面重试');
+            }
+        }
+
+        // 保存数据到本地存储
+        function saveToStorage() {
+            localStorage.setItem('blogData', JSON.stringify(blogData));
+        }
+
+        // 从本地存储加载
+        function loadFromStorage() {
+            const stored = localStorage.getItem('blogData');
+            if (stored) {
+                blogData = JSON.parse(stored);
+                return true;
+            }
+            return false;
+        }
+
+        // 更新统计信息
+        function updateStats() {
+            document.getElementById('articleCount').textContent = blogData.articles.length;
+            document.getElementById('workCount').textContent = blogData.works.length;
+            
+            const featured = blogData.articles.filter(a => a.featured).length + 
+                           blogData.works.filter(w => w.featured).length;
+            document.getElementById('featuredCount').textContent = featured;
+            
+            const categories = new Set([
+                ...blogData.articles.map(a => a.category),
+                ...blogData.works.map(w => w.category)
+            ]);
+            document.getElementById('categoryCount').textContent = categories.size;
+        }
+
+        // 切换栏目
+        function showSection(section) {
+            document.querySelectorAll('.main-content').forEach(el => {
+                el.style.display = 'none';
+            });
+            document.getElementById(`${section}-section`).style.display = 'block';
+            
+            document.querySelectorAll('.admin-nav a').forEach(el => {
+                el.classList.remove('active');
+            });
+            event.target.closest('a').classList.add('active');
+        }
+
+        // 渲染文章列表
+        function renderArticles() {
+            const container = document.getElementById('articlesList');
+            container.innerHTML = blogData.articles.map(article => `
+                <div class="content-card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">${article.title}</div>
+                            <div class="card-meta">
+                                <span><i class="fas fa-calendar"></i> ${article.date}</span>
+                                <span><i class="fas fa-clock"></i> ${article.readTime}</span>
+                                <span><i class="fas fa-tag"></i> ${getCategoryName(article.category, 'articles')}</span>
+                            </div>
+                        </div>
+                        ${article.featured ? '<span class="tag" style="background: rgba(245, 158, 11, 0.2); color: #f59e0b;">精选</span>' : ''}
+                    </div>
+                    <p class="card-description">${article.excerpt}</p>
+                    <div class="card-tags">
+                        ${article.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn btn-primary btn-sm" onclick="editArticle(${article.id})">
+                            <i class="fas fa-edit"></i> 编辑
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteArticle(${article.id})">
+                            <i class="fas fa-trash"></i> 删除
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 渲染作品列表
+        function renderWorks() {
+            const container = document.getElementById('worksList');
+            container.innerHTML = blogData.works.map(work => `
+                <div class="content-card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">${work.title}</div>
+                            <div class="card-meta">
+                                <span><i class="fas fa-tag"></i> ${getCategoryName(work.category, 'works')}</span>
+                                <span><i class="fas fa-circle" style="color: ${work.status === '已上线' ? '#10b981' : work.status === '进行中' ? '#f59e0b' : '#6366f1'}"></i> ${work.status}</span>
+                            </div>
+                        </div>
+                        ${work.featured ? '<span class="tag" style="background: rgba(245, 158, 11, 0.2); color: #f59e0b;">精选</span>' : ''}
+                    </div>
+                    <p class="card-description">${work.description}</p>
+                    <div class="card-tags">
+                        ${work.tech.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn btn-primary btn-sm" onclick="editWork(${work.id})">
+                            <i class="fas fa-edit"></i> 编辑
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteWork(${work.id})">
+                            <i class="fas fa-trash"></i> 删除
+                        </button>
+                        ${work.github ? `<a href="${work.github}" target="_blank" class="btn btn-outline btn-sm"><i class="fab fa-github"></i> GitHub</a>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 获取分类名称
+        function getCategoryName(category, type) {
+            return blogData.categories[type]?.[category] || category;
+        }
+
+        // 打开文章模态框
+        function openArticleModal(article = null) {
+            const modal = document.getElementById('articleModal');
+            const title = document.getElementById('articleModalTitle');
+            
+            if (article) {
+                title.textContent = '编辑文章';
+                document.getElementById('articleId').value = article.id;
+                document.getElementById('articleTitle').value = article.title;
+                document.getElementById('articleExcerpt').value = article.excerpt;
+                document.getElementById('articleCategory').value = article.category;
+                document.getElementById('articleDate').value = article.date;
+                document.getElementById('articleReadTime').value = article.readTime;
+                document.getElementById('articleTags').value = article.tags.join(', ');
+                document.getElementById('articleIcon').value = article.icon;
+                document.getElementById('articleUrl').value = article.url;
+                document.getElementById('articleFeatured').checked = article.featured;
+            } else {
+                title.textContent = '添加文章';
+                document.getElementById('articleForm').reset();
+                document.getElementById('articleDate').value = new Date().toISOString().split('T')[0];
+            }
+            
+            modal.classList.add('active');
+        }
+
+        // 关闭文章模态框
+        function closeArticleModal() {
+            document.getElementById('articleModal').classList.remove('active');
+        }
+
+        // 保存文章
+        function saveArticle(event) {
+            event.preventDefault();
+            
+            const id = document.getElementById('articleId').value;
+            const article = {
+                id: id ? parseInt(id) : Date.now(),
+                title: document.getElementById('articleTitle').value,
+                excerpt: document.getElementById('articleExcerpt').value,
+                category: document.getElementById('articleCategory').value,
+                date: document.getElementById('articleDate').value,
+                readTime: document.getElementById('articleReadTime').value || '5 分钟',
+                tags: document.getElementById('articleTags').value.split(',').map(t => t.trim()).filter(t => t),
+                icon: document.getElementById('articleIcon').value || 'fas fa-file-alt',
+                url: document.getElementById('articleUrl').value || '#',
+                featured: document.getElementById('articleFeatured').checked
+            };
+
+            if (id) {
+                // 更新
+                const index = blogData.articles.findIndex(a => a.id === parseInt(id));
+                if (index !== -1) {
+                    blogData.articles[index] = article;
+                }
+            } else {
+                // 新增
+                blogData.articles.unshift(article);
+            }
+
+            saveToStorage();
+            renderArticles();
+            updateStats();
+            closeArticleModal();
+            alert(id ? '文章已更新' : '文章已添加');
+        }
+
+        // 编辑文章
+        function editArticle(id) {
+            const article = blogData.articles.find(a => a.id === id);
+            if (article) {
+                openArticleModal(article);
+            }
+        }
+
+        // 删除文章
+        function deleteArticle(id) {
+            if (confirm('确定要删除这篇文章吗？')) {
+                blogData.articles = blogData.articles.filter(a => a.id !== id);
+                saveToStorage();
+                renderArticles();
+                updateStats();
+                alert('文章已删除');
+            }
+        }
+
+        // 打开作品模态框
+        function openWorkModal(work = null) {
+            const modal = document.getElementById('workModal');
+            const title = document.getElementById('workModalTitle');
+            
+            if (work) {
+                title.textContent = '编辑作品';
+                document.getElementById('workId').value = work.id;
+                document.getElementById('workTitle').value = work.title;
+                document.getElementById('workDescription').value = work.description;
+                document.getElementById('workCategory').value = work.category;
+                document.getElementById('workImage').value = work.image;
+                document.getElementById('workTech').value = work.tech.join(', ');
+                document.getElementById('workGithub').value = work.github;
+                document.getElementById('workDemo').value = work.demo;
+                document.getElementById('workStatus').value = work.status;
+                document.getElementById('workFeatured').checked = work.featured;
+            } else {
+                title.textContent = '添加作品';
+                document.getElementById('workForm').reset();
+            }
+            
+            modal.classList.add('active');
+        }
+
+        // 关闭作品模态框
+        function closeWorkModal() {
+            document.getElementById('workModal').classList.remove('active');
+        }
+
+        // 保存作品
+        function saveWork(event) {
+            event.preventDefault();
+            
+            const id = document.getElementById('workId').value;
+            const work = {
+                id: id ? parseInt(id) : Date.now(),
+                title: document.getElementById('workTitle').value,
+                description: document.getElementById('workDescription').value,
+                category: document.getElementById('workCategory').value,
+                image: document.getElementById('workImage').value || 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800',
+                tech: document.getElementById('workTech').value.split(',').map(t => t.trim()).filter(t => t),
+                github: document.getElementById('workGithub').value || '#',
+                demo: document.getElementById('workDemo').value || '#',
+                status: document.getElementById('workStatus').value,
+                featured: document.getElementById('workFeatured').checked
+            };
+
+            if (id) {
+                // 更新
+                const index = blogData.works.findIndex(w => w.id === parseInt(id));
+                if (index !== -1) {
+                    blogData.works[index] = work;
+                }
+            } else {
+                // 新增
+                blogData.works.unshift(work);
+            }
+
+            saveToStorage();
+            renderWorks();
+            updateStats();
+            closeWorkModal();
+            alert(id ? '作品已更新' : '作品已添加');
+        }
+
+        // 编辑作品
+        function editWork(id) {
+            const work = blogData.works.find(w => w.id === id);
+            if (work) {
+                openWorkModal(work);
+            }
+        }
+
+        // 删除作品
+        function deleteWork(id) {
+            if (confirm('确定要删除这个作品吗？')) {
+                blogData.works = blogData.works.filter(w => w.id !== id);
+                saveToStorage();
+                renderWorks();
+                updateStats();
+                alert('作品已删除');
+            }
+        }
+
+        // 导出数据
+        function exportData(type) {
+            const data = type === 'articles' ? blogData.articles : blogData.works;
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${type}_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!loadFromStorage()) {
+                loadData();
+            } else {
+                renderArticles();
+                renderWorks();
+                updateStats();
+            }
+        });
+    </script>
+</body>
+</html>
