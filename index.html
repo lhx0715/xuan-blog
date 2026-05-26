@@ -20,6 +20,7 @@
                 <a href="#about" class="nav-link">关于我</a>
                 <a href="#skills" class="nav-link">技能</a>
                 <a href="#projects" class="nav-link">项目</a>
+                <a href="#tech-sharing" class="nav-link">技术分享</a>
                 <a href="#achievements" class="nav-link">荣誉</a>
                 <a href="#contact" class="nav-link">联系</a>
             </div>
@@ -348,10 +349,177 @@ me.say_hi()</code></pre>
     </section>
 
     <!-- 荣誉成就 -->
+    
+    <!-- 技术分享 -->
+    <section id="tech-sharing" class="section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="title-number">04.</span> 技术分享
+            </h2>
+            <p class="section-subtitle">记录学习笔记，分享技术心得</p>
+            
+            <!-- 分类标签 -->
+            <div class="tech-tags">
+                <button class="tech-tag active" data-filter="all">全部</button>
+                <button class="tech-tag" data-filter="ai">AI/ML</button>
+                <button class="tech-tag" data-filter="frontend">前端开发</button>
+                <button class="tech-tag" data-filter="backend">后端开发</button>
+                <button class="tech-tag" data-filter="devops">开发工具</button>
+                <button class="tech-tag" data-filter="algorithm">算法</button>
+            </div>
+            
+            <!-- 文章列表 -->
+            <div class="tech-grid">
+                <!-- 文章1: AI应用开发 -->
+                <article class="tech-card" data-category="ai">
+                    <div class="tech-card-header">
+                        <div class="tech-icon"><i class="fas fa-brain"></i></div>
+                        <span class="tech-date">2025-05-20</span>
+                    </div>
+                    <h3 class="tech-title">从零搭建 AI 智能备忘录助手</h3>
+                    <p class="tech-excerpt">
+                        使用 Django + React + OpenAI API 构建智能备忘录应用，实现语音识别、自动分类和智能提醒功能。本文记录完整的开发流程和踩坑经验。
+                    </p>
+                    <div class="tech-meta">
+                        <span class="tech-category">AI/ML</span>
+                        <span class="tech-read-time"><i class="fas fa-clock"></i> 15 分钟</span>
+                    </div>
+                    <div class="tech-tags-list">
+                        <span>Django</span>
+                        <span>React</span>
+                        <span>OpenAI</span>
+                        <span>NLP</span>
+                    </div>
+                    <a href="#" class="tech-link">阅读全文 <i class="fas fa-arrow-right"></i></a>
+                </article>
+
+                <!-- 文章2: 前端开发 -->
+                <article class="tech-card" data-category="frontend">
+                    <div class="tech-card-header">
+                        <div class="tech-icon"><i class="fab fa-react"></i></div>
+                        <span class="tech-date">2025-05-15</span>
+                    </div>
+                    <h3 class="tech-title">React + Vite + Tailwind CSS 项目实战</h3>
+                    <p class="tech-excerpt">
+                        分享使用 React + Vite + Tailwind CSS 搭建现代化前端项目的最佳实践，包括项目结构、组件设计、状态管理和性能优化技巧。
+                    </p>
+                    <div class="tech-meta">
+                        <span class="tech-category">前端开发</span>
+                        <span class="tech-read-time"><i class="fas fa-clock"></i> 12 分钟</span>
+                    </div>
+                    <div class="tech-tags-list">
+                        <span>React</span>
+                        <span>Vite</span>
+                        <span>Tailwind CSS</span>
+                        <span>TypeScript</span>
+                    </div>
+                    <a href="#" class="tech-link">阅读全文 <i class="fas fa-arrow-right"></i></a>
+                </article>
+
+                <!-- 文章3: AI工具 -->
+                <article class="tech-card" data-category="ai">
+                    <div class="tech-card-header">
+                        <div class="tech-icon"><i class="fas fa-music"></i></div>
+                        <span class="tech-date">2025-05-10</span>
+                    </div>
+                    <h3 class="tech-title">AI 音乐创作入门：用 Suno 生成你的第一首歌</h3>
+                    <p class="tech-excerpt">
+                        探索 AI 音乐生成的奥秘，使用 Suno AI 创作属于自己的音乐作品。本文介绍提示词技巧、风格选择和后期处理方法。
+                    </p>
+                    <div class="tech-meta">
+                        <span class="tech-category">AI/ML</span>
+                        <span class="tech-read-time"><i class="fas fa-clock"></i> 8 分钟</span>
+                    </div>
+                    <div class="tech-tags-list">
+                        <span>Suno AI</span>
+                        <span>音乐生成</span>
+                        <span>创意编程</span>
+                    </div>
+                    <a href="#" class="tech-link">阅读全文 <i class="fas fa-arrow-right"></i></a>
+                </article>
+
+                <!-- 文章4: 后端开发 -->
+                <article class="tech-card" data-category="backend">
+                    <div class="tech-card-header">
+                        <div class="tech-icon"><i class="fab fa-python"></i></div>
+                        <span class="tech-date">2025-05-05</span>
+                    </div>
+                    <h3 class="tech-title">Django REST Framework 实战指南</h3>
+                    <p class="tech-excerpt">
+                        深入学习 Django REST Framework 的核心概念，包括序列化器、视图集、路由配置、权限控制和 API 文档生成等高级用法。
+                    </p>
+                    <div class="tech-meta">
+                        <span class="tech-category">后端开发</span>
+                        <span class="tech-read-time"><i class="fas fa-clock"></i> 18 分钟</span>
+                    </div>
+                    <div class="tech-tags-list">
+                        <span>Django</span>
+                        <span>REST API</span>
+                        <span>Python</span>
+                        <span>MySQL</span>
+                    </div>
+                    <a href="#" class="tech-link">阅读全文 <i class="fas fa-arrow-right"></i></a>
+                </article>
+
+                <!-- 文章5: 开发工具 -->
+                <article class="tech-card" data-category="devops">
+                    <div class="tech-card-header">
+                        <div class="tech-icon"><i class="fab fa-docker"></i></div>
+                        <span class="tech-date">2025-04-28</span>
+                    </div>
+                    <h3 class="tech-title">Docker 容器化部署实战</h3>
+                    <p class="tech-excerpt">
+                        学习使用 Docker 容器化部署 Web 应用，包括 Dockerfile 编写、docker-compose 配置、镜像优化和生产环境最佳实践。
+                    </p>
+                    <div class="tech-meta">
+                        <span class="tech-category">开发工具</span>
+                        <span class="tech-read-time"><i class="fas fa-clock"></i> 14 分钟</span>
+                    </div>
+                    <div class="tech-tags-list">
+                        <span>Docker</span>
+                        <span>容器化</span>
+                        <span>DevOps</span>
+                    </div>
+                    <a href="#" class="tech-link">阅读全文 <i class="fas fa-arrow-right"></i></a>
+                </article>
+
+                <!-- 文章6: 算法 -->
+                <article class="tech-card" data-category="algorithm">
+                    <div class="tech-card-header">
+                        <div class="tech-icon"><i class="fas fa-project-diagram"></i></div>
+                        <span class="tech-date">2025-04-20</span>
+                    </div>
+                    <h3 class="tech-title">A* 算法详解与 Python 实现</h3>
+                    <p class="tech-excerpt">
+                        深入理解 A* 寻路算法的原理，使用 Python 实现完整的路径规划，并通过可视化展示算法的执行过程和优化技巧。
+                    </p>
+                    <div class="tech-meta">
+                        <span class="tech-category">算法</span>
+                        <span class="tech-read-time"><i class="fas fa-clock"></i> 10 分钟</span>
+                    </div>
+                    <div class="tech-tags-list">
+                        <span>A*算法</span>
+                        <span>Python</span>
+                        <span>路径规划</span>
+                        <span>数据结构</span>
+                    </div>
+                    <a href="#" class="tech-link">阅读全文 <i class="fas fa-arrow-right"></i></a>
+                </article>
+            </div>
+            
+            <!-- 加载更多按钮 -->
+            <div class="tech-more">
+                <button class="btn btn-outline" id="loadMoreTech">
+                    <i class="fas fa-plus"></i> 加载更多文章
+                </button>
+            </div>
+        </div>
+    </section>
+
     <section id="achievements" class="section section-alt">
         <div class="container">
             <h2 class="section-title">
-                <span class="title-number">04.</span> 荣誉 & 成就
+                <span class="title-number">05.</span> 荣誉 & 成就
             </h2>
             <div class="achievements-grid">
                 <div class="achievement-card">
@@ -410,7 +578,7 @@ me.say_hi()</code></pre>
     <section id="timeline" class="section">
         <div class="container">
             <h2 class="section-title">
-                <span class="title-number">05.</span> 我的旅程
+                <span class="title-number">06.</span> 我的旅程
             </h2>
             <div class="timeline">
                 <div class="timeline-item">
@@ -461,7 +629,7 @@ me.say_hi()</code></pre>
     <section id="contact" class="section section-alt">
         <div class="container">
             <h2 class="section-title">
-                <span class="title-number">06.</span> 联系我
+                <span class="title-number">07.</span> 联系我
             </h2>
             <div class="contact-content">
                 <div class="contact-text">

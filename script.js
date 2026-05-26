@@ -151,3 +151,123 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
+
+
+// ==================== 技术分享功能 ====================
+
+// 分类筛选功能
+function initTechFilter() {
+    const filterButtons = document.querySelectorAll('.tech-tag');
+    const techCards = document.querySelectorAll('.tech-card');
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // 移除所有按钮的 active 状态
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            // 添加当前按钮的 active 状态
+            button.classList.add('active');
+            
+            const filter = button.dataset.filter;
+            
+            techCards.forEach(card => {
+                if (filter === 'all' || card.dataset.category === filter) {
+                    card.style.display = 'block';
+                    card.style.animation = 'fadeInUp 0.6s ease forwards';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+}
+
+// 加载更多文章功能
+function initLoadMore() {
+    const loadMoreBtn = document.getElementById('loadMoreTech');
+    if (!loadMoreBtn) return;
+    
+    // 模拟文章数据
+    const moreArticles = [
+        {
+            category: 'ai',
+            icon: 'fas fa-eye',
+            date: '2025-04-15',
+            title: 'YOLOv8 目标检测实战：从训练到部署',
+            excerpt: '使用 Ultralytics YOLOv8 进行目标检测模型训练，包括数据集准备、模型调优、推理优化和部署上线的完整流程。',
+            categoryText: 'AI/ML',
+            readTime: '20 分钟',
+            tags: ['YOLOv8', 'PyTorch', '计算机视觉', '模型部署']
+        },
+        {
+            category: 'frontend',
+            icon: 'fas fa-palette',
+            date: '2025-04-10',
+            title: 'Tailwind CSS 高级技巧与最佳实践',
+            excerpt: '深入探索 Tailwind CSS 的高级用法，包括自定义配置、组件提取、响应式设计、暗色模式和性能优化等实用技巧。',
+            categoryText: '前端开发',
+            readTime: '11 分钟',
+            tags: ['Tailwind CSS', 'CSS', '响应式设计', 'UI/UX']
+        },
+        {
+            category: 'backend',
+            icon: 'fas fa-database',
+            date: '2025-04-05',
+            title: 'MySQL 性能优化：索引设计与查询调优',
+            excerpt: '学习 MySQL 数据库性能优化的核心技巧，包括索引原理、慢查询分析、执行计划解读和常见优化策略。',
+            categoryText: '后端开发',
+            readTime: '16 分钟',
+            tags: ['MySQL', '数据库', '性能优化', '索引']
+        }
+    ];
+    
+    let loadCount = 0;
+    
+    loadMoreBtn.addEventListener('click', () => {
+        if (loadCount >= moreArticles.length) {
+            loadMoreBtn.textContent = '没有更多文章了';
+            loadMoreBtn.disabled = true;
+            return;
+        }
+        
+        const techGrid = document.querySelector('.tech-grid');
+        const article = moreArticles[loadCount];
+        
+        const newCard = document.createElement('article');
+        newCard.className = 'tech-card';
+        newCard.dataset.category = article.category;
+        newCard.style.animation = 'fadeInUp 0.6s ease forwards';
+        
+        newCard.innerHTML = `
+            <div class="tech-card-header">
+                <div class="tech-icon"><i class="${article.icon}"></i></div>
+                <span class="tech-date">${article.date}</span>
+            </div>
+            <h3 class="tech-title">${article.title}</h3>
+            <p class="tech-excerpt">${article.excerpt}</p>
+            <div class="tech-meta">
+                <span class="tech-category">${article.categoryText}</span>
+                <span class="tech-read-time"><i class="fas fa-clock"></i> ${article.readTime}</span>
+            </div>
+            <div class="tech-tags-list">
+                ${article.tags.map(tag => `<span>${tag}</span>`).join('')}
+            </div>
+            <a href="#" class="tech-link">阅读全文 <i class="fas fa-arrow-right"></i></a>
+        `;
+        
+        techGrid.appendChild(newCard);
+        loadCount++;
+        
+        if (loadCount >= moreArticles.length) {
+            loadMoreBtn.innerHTML = '<i class="fas fa-check"></i> 已加载全部文章';
+            loadMoreBtn.disabled = true;
+            loadMoreBtn.style.opacity = '0.6';
+        }
+    });
+}
+
+// 初始化技术分享功能
+document.addEventListener('DOMContentLoaded', () => {
+    initTechFilter();
+    initLoadMore();
+});
+
