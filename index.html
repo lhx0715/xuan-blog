@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李昊烜 | 个人博客</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo">
+                <span class="logo-bracket">&lt;</span>Xuan<span class="logo-bracket"> /&gt;</span>
+            </a>
+            <div class="nav-links">
+                <a href="#about" class="nav-link">关于我</a>
+                <a href="#skills" class="nav-link">技能</a>
+                <a href="#projects" class="nav-link">项目</a>
+                <a href="#achievements" class="nav-link">荣誉</a>
+                <a href="#contact" class="nav-link">联系</a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#about" class="mobile-link">关于我</a>
+        <a href="#skills" class="mobile-link">技能</a>
+        <a href="#projects" class="mobile-link">项目</a>
+        <a href="#achievements" class="mobile-link">荣誉</a>
+        <a href="#contact" class="mobile-link">联系</a>
+    </div>
+
+    <!-- Hero 区域 -->
+    <section id="hero">
+        <div class="hero-bg">
+            <div class="particles" id="particles"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-greeting">你好，我是</div>
+            <h1 class="hero-name">李昊烜</h1>
+            <div class="hero-title">
+                <span class="typed-text" id="typedText"></span>
+                <span class="cursor">|</span>
+            </div>
+            <p class="hero-desc">
+                中国计量大学 · 计算机科学与技术<br>
+                热爱编程、AI 与创造，用代码构建有趣的世界
+            </p>
+            <div class="hero-actions">
+                <a href="#projects" class="btn btn-primary">
+                    <i class="fas fa-rocket"></i> 查看项目
+                </a>
+                <a href="#contact" class="btn btn-outline">
+                    <i class="fas fa-envelope"></i> 联系我
+                </a>
+            </div>
+            <div class="hero-social">
+                <a href="https://github.com/Xuan" target="_blank" class="social-link" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="mailto:lhx20050715@qq.com" class="social-link" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+        </div>
+        <a href="#about" class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <span>向下滚动</span>
+        </a>
+    </section>
+
+    <!-- 关于我 -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="title-number">01.</span> 关于我
+            </h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>
+                        我是 <strong>李昊烜</strong>，中国计量大学计算机科学与技术专业的大三学生（2023级）。
+                        对技术充满热情，尤其在 <strong>AI 应用开发</strong>、<strong>全栈 Web 开发</strong> 和 <strong>创意编程</strong> 方面有浓厚兴趣。
+                    </p>
+                    <p>
+                        我喜欢将想法变为现实——从智能备忘录助手到游戏网站，从轻食品牌页面到 AI 音乐创作，
+                        每一个项目都是一次新的探索。课余时间，我喜欢打篮球、玩 Minecraft、用剪映做视频，
+                        以及探索各种 AI 工具的可能性。
+                    </p>
+                    <p>
+                        作为党员发展对象和学生干部，我也积极参与志愿服务和社会实践，
+                        在技术之外不断拓宽自己的视野。
+                    </p>
+                    <div class="about-highlights">
+                        <div class="highlight-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <div>
+                                <strong>中国计量大学</strong>
+                                <span>计算机科学与技术 · 2023级</span>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <strong>杭州</strong>
+                                <span>浙江省杭州市</span>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="fas fa-laptop-code"></i>
+                            <div>
+                                <strong>全栈 + AI</strong>
+                                <span>Python / Java / React / Django</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image-wrapper">
+                    <div class="about-image-card">
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                                <span class="code-filename">about.py</span>
+                            </div>
+                            <pre><code><span class="kw">class</span> <span class="cls">Developer</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self):
+        self.name = <span class="str">"李昊烜"</span>
+        self.alias = <span class="str">"Xuan"</span>
+        self.school = <span class="str">"中国计量大学"</span>
+        self.major = <span class="str">"计算机科学与技术"</span>
+        self.skills = [
+            <span class="str">"Python"</span>, <span class="str">"Java"</span>,
+            <span class="str">"React"</span>, <span class="str">"Django"</span>,
+            <span class="str">"AI/ML"</span>, <span class="str">"Docker"</span>
+        ]
+        self.interests = [
+            <span class="str">"AI应用"</span>, <span class="str">"全栈开发"</span>,
+            <span class="str">"篮球"</span>, <span class="str">"Minecraft"</span>
+        ]
+
+    <span class="kw">def</span> <span class="fn">say_hi</span>(self):
+        <span class="kw">print</span>(<span class="str">"Thanks for visiting! 🚀"</span>)
+
+me = Developer()
+me.say_hi()</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 技能 -->
+    <section id="skills" class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="title-number">02.</span> 技能栈
+            </h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <div class="skill-icon"><i class="fas fa-code"></i></div>
+                    <h3>编程语言</h3>
+                    <div class="skill-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Java</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">TypeScript</span>
+                        <span class="tag">C/C++</span>
+                        <span class="tag">HTML/CSS</span>
+                        <span class="tag">SQL</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="skill-icon"><i class="fas fa-layer-group"></i></div>
+                    <h3>前端技术</h3>
+                    <div class="skill-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">Vite</span>
+                        <span class="tag">Tailwind CSS</span>
+                        <span class="tag">Bootstrap</span>
+                        <span class="tag">HBuilderX</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="skill-icon"><i class="fas fa-server"></i></div>
+                    <h3>后端 & 数据库</h3>
+                    <div class="skill-tags">
+                        <span class="tag">Django</span>
+                        <span class="tag">Django REST</span>
+                        <span class="tag">MySQL</span>
+                        <span class="tag">Redis</span>
+                        <span class="tag">Celery</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="skill-icon"><i class="fas fa-brain"></i></div>
+                    <h3>AI & 机器学习</h3>
+                    <div class="skill-tags">
+                        <span class="tag">OpenAI API</span>
+                        <span class="tag">讯飞 API</span>
+                        <span class="tag">YOLOv8</span>
+                        <span class="tag">NLP</span>
+                        <span class="tag">语音识别</span>
+                        <span class="tag">OCR</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="skill-icon"><i class="fas fa-tools"></i></div>
+                    <h3>开发工具</h3>
+                    <div class="skill-tags">
+                        <span class="tag">Git</span>
+                        <span class="tag">GitHub</span>
+                        <span class="tag">Docker</span>
+                        <span class="tag">VS Code</span>
+                        <span class="tag">PyCharm</span>
+                        <span class="tag">IntelliJ</span>
+                        <span class="tag">Cursor</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="skill-icon"><i class="fas fa-microchip"></i></div>
+                    <h3>其他技能</h3>
+                    <div class="skill-tags">
+                        <span class="tag">LaTeX</span>
+                        <span class="tag">Keil uVision</span>
+                        <span class="tag">NI Multisim</span>
+                        <span class="tag">Photoshop</span>
+                        <span class="tag">剪映</span>
+                        <span class="tag">Postman</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目 -->
+    <section id="projects" class="section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="title-number">03.</span> 项目作品
+            </h2>
+            <div class="projects-grid">
+                <div class="project-card project-featured">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-brain"></i></div>
+                        <span class="project-badge">重点项目</span>
+                    </div>
+                    <h3 class="project-title">AI 智能备忘录助手</h3>
+                    <p class="project-desc">
+                        集成 AI 技术的智能备忘录应用，支持语音备忘、自动分类、智能提醒和内容总结。
+                        使用 NLP 实现文本分类与标签推荐，集成语音识别和 OCR 能力。
+                    </p>
+                    <div class="project-tech">
+                        <span>Django</span><span>React</span><span>OpenAI</span>
+                        <span>讯飞</span><span>MySQL</span><span>Redis</span>
+                        <span>Celery</span><span>Docker</span>
+                    </div>
+                    <div class="project-features">
+                        <div class="feature"><i class="fas fa-microphone"></i><span>智能语音备忘录</span></div>
+                        <div class="feature"><i class="fas fa-tags"></i><span>自动文本分类</span></div>
+                        <div class="feature"><i class="fas fa-bell"></i><span>智能任务提醒</span></div>
+                        <div class="feature"><i class="fas fa-sync"></i><span>多设备同步</span></div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-gamepad"></i></div>
+                        <span class="project-badge badge-web">Web</span>
+                    </div>
+                    <h3 class="project-title">我的游戏天地</h3>
+                    <p class="project-desc">
+                        个人游戏作品展示网站，采用现代化 UI 设计，展示自主开发的各类小游戏。响应式布局，多端适配。
+                    </p>
+                    <div class="project-tech">
+                        <span>React</span><span>TypeScript</span><span>Vite</span><span>Tailwind CSS</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-leaf"></i></div>
+                        <span class="project-badge badge-design">设计</span>
+                    </div>
+                    <h3 class="project-title">轻食之家 / LUMINA LIGHT</h3>
+                    <p class="project-desc">
+                        健康轻食品牌网站设计，包含两套风格方案——温暖活力版和极简高级版。涵盖食谱展示、餐单定制等完整页面。
+                    </p>
+                    <div class="project-tech">
+                        <span>HTML</span><span>Tailwind CSS</span><span>JavaScript</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-eye"></i></div>
+                        <span class="project-badge badge-ai">AI</span>
+                    </div>
+                    <h3 class="project-title">YOLOv8 目标检测</h3>
+                    <p class="project-desc">
+                        基于 Ultralytics YOLOv8 的目标检测实践，进行模型训练、推理和部署的完整流程探索。
+                    </p>
+                    <div class="project-tech">
+                        <span>Python</span><span>PyTorch</span><span>YOLOv8</span><span>OpenCV</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fas fa-music"></i></div>
+                        <span class="project-badge badge-creative">创意</span>
+                    </div>
+                    <h3 class="project-title">AI 音乐创作</h3>
+                    <p class="project-desc">
+                        利用 AI 工具进行音乐创作实验，作品包括《追寻》《再也不见》《期末周的逃避》等，探索 AI 在创意领域的无限可能。
+                    </p>
+                    <div class="project-tech">
+                        <span>Suno AI</span><span>音频处理</span><span>剪映</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-icon"><i class="fab fa-java"></i></div>
+                        <span class="project-badge badge-academic">课程</span>
+                    </div>
+                    <h3 class="project-title">Java 课程系列作业</h3>
+                    <p class="project-desc">
+                        包含面向对象编程实践：矩形类设计、综合习题等，掌握 Java 核心概念与设计模式。
+                    </p>
+                    <div class="project-tech">
+                        <span>Java</span><span>IntelliJ IDEA</span><span>OOP</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 荣誉成就 -->
+    <section id="achievements" class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="title-number">04.</span> 荣誉 & 成就
+            </h2>
+            <div class="achievements-grid">
+                <div class="achievement-card">
+                    <div class="achievement-icon"><i class="fas fa-trophy"></i></div>
+                    <div class="achievement-info">
+                        <h3>浙江省第16届服务外包大赛</h3>
+                        <p>省级竞赛获奖，展现技术实践与团队协作能力</p>
+                        <span class="achievement-tag">竞赛</span>
+                    </div>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon"><i class="fas fa-award"></i></div>
+                    <div class="achievement-info">
+                        <h3>和也奖助学金</h3>
+                        <p>2024-2025学年优秀学生奖助学金获得者</p>
+                        <span class="achievement-tag">奖学金</span>
+                    </div>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon"><i class="fas fa-star"></i></div>
+                    <div class="achievement-info">
+                        <h3>启明学院高级培训班</h3>
+                        <p>第22期高级培训班学员，提升综合素质与领导力</p>
+                        <span class="achievement-tag">培训</span>
+                    </div>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon"><i class="fas fa-route"></i></div>
+                    <div class="achievement-info">
+                        <h3>大学生职业规划大赛</h3>
+                        <p>"我的AI创新之路：从学生到创业者的生涯规划"</p>
+                        <span class="achievement-tag">竞赛</span>
+                    </div>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon"><i class="fas fa-hand-holding-heart"></i></div>
+                    <div class="achievement-info">
+                        <h3>志愿服务 & 社会实践</h3>
+                        <p>蓝海义警队、暑期社会实践院队、校外志愿服务</p>
+                        <span class="achievement-tag">公益</span>
+                    </div>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon"><i class="fas fa-flag"></i></div>
+                    <div class="achievement-info">
+                        <h3>党员发展对象</h3>
+                        <p>信息工程学院团学组织工作人员，积极向党组织靠拢</p>
+                        <span class="achievement-tag">党务</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 时间线 -->
+    <section id="timeline" class="section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="title-number">05.</span> 我的旅程
+            </h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">2023.09</span>
+                        <h3>进入中国计量大学</h3>
+                        <p>计算机科学与技术专业，开启大学生活</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">2024</span>
+                        <h3>技术探索期</h3>
+                        <p>学习 Python/Java/React，参与 AI 项目开发，完成多个课程设计</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">2024 暑期</span>
+                        <h3>社会实践 & 竞赛</h3>
+                        <p>参加暑期社会实践、服务外包大赛获奖、启明学院培训</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">2025</span>
+                        <h3>深耕 AI & 全栈</h3>
+                        <p>开发 AI 智能备忘录助手，探索 YOLOv8、AI 音乐创作，获和也奖助学金</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot active"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">现在</span>
+                        <h3>持续成长 🚀</h3>
+                        <p>不断学习新技术，追求技术与创意的结合</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系 -->
+    <section id="contact" class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="title-number">06.</span> 联系我
+            </h2>
+            <div class="contact-content">
+                <div class="contact-text">
+                    <h3>期待与你交流 👋</h3>
+                    <p>无论是技术讨论、项目合作还是只是想打个招呼，都欢迎联系我！</p>
+                </div>
+                <div class="contact-cards">
+                    <a href="mailto:lhx20050715@qq.com" class="contact-card">
+                        <i class="fas fa-envelope"></i>
+                        <span>lhx20050715@qq.com</span>
+                    </a>
+                    <a href="https://github.com/Xuan" target="_blank" class="contact-card">
+                        <i class="fab fa-github"></i>
+                        <span>GitHub @Xuan</span>
+                    </a>
+                    <a href="https://gitee.com" target="_blank" class="contact-card">
+                        <i class="fab fa-git-alt"></i>
+                        <span>Gitee</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-text">
+                    <span class="logo-bracket">&lt;</span>Xuan<span class="logo-bracket"> /&gt;</span>
+                    &nbsp;·&nbsp; 用代码构建有趣的世界
+                </p>
+                <p class="footer-copyright">
+                    &copy; 2025 李昊烜 · Designed &amp; Built with ❤️
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
