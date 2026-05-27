@@ -416,6 +416,144 @@ window.addEventListener('storage', (e) => {
     }
 });
 
+
+// ==================== AI Agent 进阶看板 ====================
+
+// 渲染 Agent 看板
+function renderAgentRoadmap() {
+    const roadmap = blogData.agentRoadmap;
+    if (!roadmap || !roadmap.length) return;
+
+    const timeline = document.getElementById('agentRoadmapTimeline');
+    if (!timeline) return;
+
+    // 计算总体统计
+    let totalPoints = 0, completedPoints = 0, inProgressPoints = 0;
+    roadmap.forEach(phase => {
+        phase.knowledgePoints.forEach(kp => {
+            totalPoints++;
+            if (kp.status === '已完成') completedPoints++;
+            else if (kp.status === '进行中') inProgressPoints++;
+        });
+    });
+
+    const progressPercent = totalPoints > 0 ? Math.round((completedPoints / totalPoints) * 100) : 0;
+
+    // 更新统计数字
+    const completedEl = document.getElementById('completedCount');
+    const inProgressEl = document.getElementById('inProgressCount');
+    const totalEl = document.getElementById('totalCount');
+    const progressTextEl = document.getElementById('progressText');
+    const progressLabelEl = document.getElementById('overallProgressLabel');
+    const progressFillEl = document.getElementById('overallProgressFill');
+    const progressCircleEl = document.getElementById('progressCircle');
+
+    if (completedEl) completedEl.textContent = completedPoints;
+    if (inProgressEl) inProgressEl.textContent = inProgressPoints;
+    if (totalEl) totalEl.textContent = totalPoints;
+    if (progressTextEl) progressTextEl.textContent = progressPercent + '%';
+    if (progressLabelEl) progressLabelEl.textContent = completedPoints + ' / ' + totalPoints + ' 已完成';
+    if (progressFillEl) progressFillEl.style.width = progressPercent + '%';
+    if (progressCircleEl) {
+        const circumference = 2 * Math.PI * 52;
+        progressCircleEl.style.strokeDasharray = circumference;
+        progressCircleEl.style.strokeDashoffset = circumference - (circumference * progressPercent / 100);
+    }
+
+    // 渲染时间线
+    timeline.innerHTML = roadmap.map((phase, index) => {
+        const phaseTotal = phase.knowledgePoints.length;
+        const phaseCompleted = phase.knowledgePoints.filter(kp => kp.status === '已完成').length;
+        const phaseInProgress = phase.knowledgePoints.filter(kp => kp.status === '进行中').length;
+        const phasePercent = phaseTotal > 0 ? Math.round((phaseCompleted / phaseTotal) * 100) : 0;
+
+        const statusIcon = phasePercent === 100 ? 'fa-check-circle' :
+                          phasePercent > 0 ? 'fa-spinner fa-spin' : 'fa-lock';
+        const statusClass = phasePercent === 100 ? 'completed' :
+                           phasePercent > 0 ? 'in-progress' : 'locked';
+
+        return `
+        <div class="roadmap-phase ${statusClass}" data-phase="${phase.id}">
+            <div class="phase-connector">
+                <div class="connector-line"></div>
+                <div class="connector-dot">
+                    <i class="fas ${statusIcon}"></i>
+                </div>
+            </div>
+            <div class="phase-card">
+                <div class="phase-header">
+                    <div class="phase-icon"><i class="${phase.icon || 'fas fa-brain'}"></i></div>
+                    <div class="phase-info">
+                        <span class="phase-number">Phase ${index + 1}</span>
+                        <h3 class="phase-title">${phase.title}</h3>
+                    </div>
+                    <div class="phase-progress-badge">
+                        <span class="badge-percent">${phasePercent}%</span>
+                    </div>
+                </div>
+                <div class="phase-progress-bar">
+                    <div class="phase-progress-track">
+                        <div class="phase-progress-fill" style="width: ${phasePercent}%"></div>
+                    </div>
+                    <span class="phase-progress-text">${phaseCompleted}/${phaseTotal} 完成</span>
+                </div>
+                <div class="phase-body">
+                    <div class="knowledge-points">
+                        <h4 class="kp-title"><i class="fas fa-list-check"></i> 知识点</h4>
+                        <ul class="kp-list">
+                            ${phase.knowledgePoints.map(kp => {
+                                const kpClass = kp.status === '已完成' ? 'done' :
+                                               kp.status === '进行中' ? 'active' : 'pending';
+                                const kpIcon = kp.status === '已完成' ? 'fa-check-circle' :
+                                              kp.status === '进行中' ? 'fa-play-circle' : 'fa-circle';
+                                return `<li class="kp-item ${kpClass}">
+                                    <i class="fas ${kpIcon}"></i>
+                                    <span>${kp.name}</span>
+                                    <span class="kp-status">${kp.status}</span>
+                                </li>`;
+                            }).join('')}
+                        </ul>
+                    </div>
+                    ${phase.project && phase.project.projectName ? `
+                    <div class="phase-project">
+                        <h4 class="project-title"><i class="fas fa-code-branch"></i> 实战项目</h4>
+                        <div class="project-info">
+                            <span class="project-name">${phase.project.projectName}</span>
+                            <div class="project-links">
+                                ${phase.project.githubLink ? `<a href="${phase.project.githubLink}" target="_blank" class="project-link"><i class="fab fa-github"></i> GitHub</a>` : ''}
+                                ${phase.project.demoLink ? `<a href="${phase.project.demoLink}" target="_blank" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                    ` : ''}
+                    ${phase.insights ? `
+                    <div class="phase-insights">
+                        <h4 class="insights-title"><i class="fas fa-lightbulb"></i> 学习感想</h4>
+                        <div class="insights-content">${phase.insights.replace(/\n/g, '<br>')}</div>
+                    </div>
+                    ` : ''}
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+// 在 loadBlogData 中调用
+const originalLoadBlogData = loadBlogData;
+loadBlogData = async function() {
+    await originalLoadBlogData.call(this);
+    renderAgentRoadmap();
+};
+
+// localStorage 变化时也更新看板
+const originalStorageHandler = window._storageHandler;
+window.addEventListener('storage', (e) => {
+    if (e.key === 'blogData') {
+        blogData = JSON.parse(e.newValue);
+        renderAgentRoadmap();
+    }
+});
+
 // 初始化
 document.addEventListener('DOMContentLoaded', () => {
     loadBlogData();

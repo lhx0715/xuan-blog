@@ -415,6 +415,114 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
+
+        /* 看板管理样式 */
+        .roadmap-admin-phase {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .roadmap-admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.08), rgba(99, 102, 241, 0.05));
+            border-bottom: 1px solid var(--border);
+        }
+
+        .roadmap-admin-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .roadmap-admin-header h3 i {
+            color: var(--cyan);
+        }
+
+        .admin-phase-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--cyan);
+            background: rgba(6, 182, 212, 0.1);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            border: 1px solid rgba(6, 182, 212, 0.2);
+        }
+
+        .admin-kp-list, .admin-project-section, .admin-insights-section {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .admin-kp-list:last-child, .admin-project-section:last-child, .admin-insights-section:last-child {
+            border-bottom: none;
+        }
+
+        .admin-kp-list h4, .admin-project-section h4, .admin-insights-section h4 {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin: 0 0 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .admin-kp-list h4 i { color: var(--cyan); }
+        .admin-project-section h4 i { color: var(--accent-light); }
+        .admin-insights-section h4 i { color: var(--orange); }
+
+        .admin-kp-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .admin-kp-item:last-of-type {
+            border-bottom: none;
+        }
+
+        .admin-kp-name {
+            flex: 1;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .admin-add-kp {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            align-items: center;
+        }
+
+        .admin-add-kp .form-input {
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            .admin-kp-item {
+                flex-wrap: wrap;
+            }
+            .admin-kp-name {
+                width: 100%;
+            }
+            .admin-add-kp {
+                flex-direction: column;
+            }
+            .admin-add-kp .btn {
+                width: 100%;
+            }
+        }
+    </style>
     </style>
 </head>
 <body>
@@ -429,6 +537,9 @@
             </a>
             <a href="#works" onclick="showSection('works')">
                 <i class="fas fa-code"></i> 作品管理
+            </a>
+            <a href="#roadmap" onclick="showSection('roadmap')">
+                <i class="fas fa-map-marked-alt"></i> 看板管理
             </a>
             <a href="index.html">
                 <i class="fas fa-eye"></i> 查看博客
@@ -494,6 +605,21 @@
         </section>
     </div>
 
+
+        <!-- 看板管理 -->
+        <section id="roadmap-section" class="main-content" style="display: none;">
+            <h2 class="section-title">
+                <i class="fas fa-map-marked-alt"></i> AI Agent 看板管理
+            </h2>
+            <div class="actions">
+                <button class="btn btn-outline" onclick="exportData('full')">
+                    <i class="fas fa-download"></i> 导出完整数据
+                </button>
+            </div>
+            <div id="roadmapEditor">
+                <!-- 动态渲染 -->
+            </div>
+        </section>
     <!-- 文章编辑模态框 -->
     <div class="modal" id="articleModal">
         <div class="modal-content">
@@ -632,7 +758,8 @@
         let blogData = {
             articles: [],
             works: [],
-            categories: {}
+            categories: {},
+            agentRoadmap: []
         };
 
         // 加载数据
@@ -640,8 +767,10 @@
             try {
                 const response = await fetch('data.json');
                 blogData = await response.json();
+                if (!blogData.agentRoadmap) blogData.agentRoadmap = [];
                 renderArticles();
                 renderWorks();
+                renderRoadmapEditor();
                 updateStats();
             } catch (error) {
                 console.error('加载数据失败:', error);
@@ -659,6 +788,7 @@
             const stored = localStorage.getItem('blogData');
             if (stored) {
                 blogData = JSON.parse(stored);
+                if (!blogData.agentRoadmap) blogData.agentRoadmap = [];
                 return true;
             }
             return false;
@@ -685,12 +815,14 @@
             document.querySelectorAll('.main-content').forEach(el => {
                 el.style.display = 'none';
             });
-            document.getElementById(`${section}-section`).style.display = 'block';
+            document.getElementById(section + '-section').style.display = 'block';
             
             document.querySelectorAll('.admin-nav a').forEach(el => {
                 el.classList.remove('active');
             });
-            event.target.closest('a').classList.add('active');
+            if (event && event.target) {
+                event.target.closest('a').classList.add('active');
+            }
         }
 
         // 渲染文章列表
@@ -762,6 +894,140 @@
             return blogData.categories[type]?.[category] || category;
         }
 
+        // ==================== 看板管理 ====================
+
+        // 渲染看板编辑器
+        function renderRoadmapEditor() {
+            const container = document.getElementById('roadmapEditor');
+            if (!container || !blogData.agentRoadmap) return;
+
+            container.innerHTML = blogData.agentRoadmap.map((phase, phaseIdx) => {
+                const total = phase.knowledgePoints.length;
+                const done = phase.knowledgePoints.filter(kp => kp.status === '已完成').length;
+                const percent = total > 0 ? Math.round((done / total) * 100) : 0;
+
+                return `
+                <div class="roadmap-admin-phase" data-phase-idx="${phaseIdx}">
+                    <div class="roadmap-admin-header">
+                        <h3>
+                            <i class="${phase.icon || 'fas fa-brain'}"></i>
+                            Phase ${phaseIdx + 1}：${phase.title}
+                        </h3>
+                        <span class="admin-phase-badge">${percent}% · ${done}/${total}</span>
+                    </div>
+
+                    <!-- 知识点列表 -->
+                    <div class="admin-kp-list">
+                        <h4><i class="fas fa-list-check"></i> 知识点管理</h4>
+                        ${phase.knowledgePoints.map((kp, kpIdx) => `
+                        <div class="admin-kp-item">
+                            <span class="admin-kp-name">${kp.name}</span>
+                            <select class="form-select admin-kp-status" 
+                                onchange="updateKPStatus(${phaseIdx}, ${kpIdx}, this.value)"
+                                style="width: auto; min-width: 100px;">
+                                <option value="未开始" ${kp.status === '未开始' ? 'selected' : ''}>未开始</option>
+                                <option value="进行中" ${kp.status === '进行中' ? 'selected' : ''}>进行中</option>
+                                <option value="已完成" ${kp.status === '已完成' ? 'selected' : ''}>已完成</option>
+                            </select>
+                            <button class="btn btn-danger btn-sm" onclick="removeKP(${phaseIdx}, ${kpIdx})">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        `).join('')}
+                        <div class="admin-add-kp">
+                            <input type="text" class="form-input" id="newKP-${phaseIdx}" 
+                                placeholder="输入新的知识点名称...">
+                            <button class="btn btn-primary btn-sm" onclick="addKP(${phaseIdx})">
+                                <i class="fas fa-plus"></i> 添加知识点
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 项目信息 -->
+                    <div class="admin-project-section">
+                        <h4><i class="fas fa-code-branch"></i> 实战项目</h4>
+                        <div class="form-group">
+                            <label class="form-label">项目名称</label>
+                            <input type="text" class="form-input" 
+                                value="${phase.project?.projectName || ''}"
+                                onchange="updateProject(${phaseIdx}, 'projectName', this.value)"
+                                placeholder="项目名称">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">GitHub 链接</label>
+                            <input type="text" class="form-input" 
+                                value="${phase.project?.githubLink || ''}"
+                                onchange="updateProject(${phaseIdx}, 'githubLink', this.value)"
+                                placeholder="https://github.com/...">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Demo 链接</label>
+                            <input type="text" class="form-input" 
+                                value="${phase.project?.demoLink || ''}"
+                                onchange="updateProject(${phaseIdx}, 'demoLink', this.value)"
+                                placeholder="https://...">
+                        </div>
+                    </div>
+
+                    <!-- 学习感想 -->
+                    <div class="admin-insights-section">
+                        <h4><i class="fas fa-lightbulb"></i> 学习感想</h4>
+                        <textarea class="form-textarea" 
+                            onchange="updateInsights(${phaseIdx}, this.value)"
+                            placeholder="记录本阶段的学习感想、反思日志..."
+                            rows="4">${phase.insights || ''}</textarea>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        // 更新知识点状态
+        function updateKPStatus(phaseIdx, kpIdx, value) {
+            blogData.agentRoadmap[phaseIdx].knowledgePoints[kpIdx].status = value;
+            saveToStorage();
+            renderRoadmapEditor();
+        }
+
+        // 添加知识点
+        function addKP(phaseIdx) {
+            const input = document.getElementById('newKP-' + phaseIdx);
+            const name = input.value.trim();
+            if (!name) { alert('请输入知识点名称'); return; }
+            blogData.agentRoadmap[phaseIdx].knowledgePoints.push({
+                name: name,
+                status: '未开始'
+            });
+            input.value = '';
+            saveToStorage();
+            renderRoadmapEditor();
+        }
+
+        // 删除知识点
+        function removeKP(phaseIdx, kpIdx) {
+            if (confirm('确定要删除这个知识点吗？')) {
+                blogData.agentRoadmap[phaseIdx].knowledgePoints.splice(kpIdx, 1);
+                saveToStorage();
+                renderRoadmapEditor();
+            }
+        }
+
+        // 更新项目信息
+        function updateProject(phaseIdx, field, value) {
+            if (!blogData.agentRoadmap[phaseIdx].project) {
+                blogData.agentRoadmap[phaseIdx].project = {};
+            }
+            blogData.agentRoadmap[phaseIdx].project[field] = value;
+            saveToStorage();
+        }
+
+        // 更新感想
+        function updateInsights(phaseIdx, value) {
+            blogData.agentRoadmap[phaseIdx].insights = value;
+            saveToStorage();
+        }
+
+        // ==================== 原有功能 ====================
+
         // 打开文章模态框
         function openArticleModal(article = null) {
             const modal = document.getElementById('articleModal');
@@ -812,13 +1078,9 @@
             };
 
             if (id) {
-                // 更新
                 const index = blogData.articles.findIndex(a => a.id === parseInt(id));
-                if (index !== -1) {
-                    blogData.articles[index] = article;
-                }
+                if (index !== -1) blogData.articles[index] = article;
             } else {
-                // 新增
                 blogData.articles.unshift(article);
             }
 
@@ -832,9 +1094,7 @@
         // 编辑文章
         function editArticle(id) {
             const article = blogData.articles.find(a => a.id === id);
-            if (article) {
-                openArticleModal(article);
-            }
+            if (article) openArticleModal(article);
         }
 
         // 删除文章
@@ -897,13 +1157,9 @@
             };
 
             if (id) {
-                // 更新
                 const index = blogData.works.findIndex(w => w.id === parseInt(id));
-                if (index !== -1) {
-                    blogData.works[index] = work;
-                }
+                if (index !== -1) blogData.works[index] = work;
             } else {
-                // 新增
                 blogData.works.unshift(work);
             }
 
@@ -917,9 +1173,7 @@
         // 编辑作品
         function editWork(id) {
             const work = blogData.works.find(w => w.id === id);
-            if (work) {
-                openWorkModal(work);
-            }
+            if (work) openWorkModal(work);
         }
 
         // 删除作品
@@ -933,14 +1187,24 @@
             }
         }
 
-        // 导出数据
+        // 导出数据（支持完整导出）
         function exportData(type) {
-            const data = type === 'articles' ? blogData.articles : blogData.works;
+            let data, filename;
+            if (type === 'full') {
+                data = blogData;
+                filename = 'data.json';
+            } else if (type === 'articles') {
+                data = blogData.articles;
+                filename = 'articles_' + new Date().toISOString().split('T')[0] + '.json';
+            } else {
+                data = blogData.works;
+                filename = 'works_' + new Date().toISOString().split('T')[0] + '.json';
+            }
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `${type}_${new Date().toISOString().split('T')[0]}.json`;
+            a.download = filename;
             a.click();
             URL.revokeObjectURL(url);
         }
@@ -952,6 +1216,7 @@
             } else {
                 renderArticles();
                 renderWorks();
+                renderRoadmapEditor();
                 updateStats();
             }
         });

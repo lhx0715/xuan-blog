@@ -23,6 +23,7 @@
                 <a href="#works" class="nav-link">作品</a>
                 <a href="#tech-sharing" class="nav-link">博客</a>
                 <a href="#achievements" class="nav-link">荣誉</a>
+                <a href="#agent-roadmap" class="nav-link">看板</a>
                 <a href="#contact" class="nav-link">联系</a>
             </div>
             <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
@@ -37,6 +38,7 @@
         <a href="#skills" class="mobile-link">技能</a>
         <a href="#projects" class="mobile-link">项目</a>
         <a href="#achievements" class="mobile-link">荣誉</a>
+        <a href="#agent-roadmap" class="mobile-link">看板</a>
         <a href="#contact" class="mobile-link">联系</a>
     </div>
 
@@ -691,11 +693,62 @@ me.say_hi()</code></pre>
         </div>
     </section>
 
-    <!-- 联系 -->
+
+    <!-- AI Agent 进阶看板 -->
+    <section id="agent-roadmap" class="section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="title-number">09.</span> AI Agent 进阶看板
+            </h2>
+            <div class="agent-roadmap-wrapper">
+                <!-- 总进度概览 -->
+                <div class="roadmap-overview">
+                    <div class="roadmap-stats">
+                        <div class="roadmap-stat-item">
+                            <div class="roadmap-stat-ring" id="progressRing">
+                                <svg viewBox="0 0 120 120">
+                                    <circle class="ring-bg" cx="60" cy="60" r="52"></circle>
+                                    <circle class="ring-fill" cx="60" cy="60" r="52" id="progressCircle"></circle>
+                                </svg>
+                                <span class="ring-text" id="progressText">0%</span>
+                            </div>
+                            <span class="roadmap-stat-label">总体进度</span>
+                        </div>
+                        <div class="roadmap-stat-item">
+                            <div class="roadmap-stat-number" id="completedCount">0</div>
+                            <span class="roadmap-stat-label">已完成</span>
+                        </div>
+                        <div class="roadmap-stat-item">
+                            <div class="roadmap-stat-number" id="inProgressCount">0</div>
+                            <span class="roadmap-stat-label">进行中</span>
+                        </div>
+                        <div class="roadmap-stat-item">
+                            <div class="roadmap-stat-number" id="totalCount">0</div>
+                            <span class="roadmap-stat-label">知识点总数</span>
+                        </div>
+                    </div>
+                    <!-- 总进度条 -->
+                    <div class="roadmap-progress-bar">
+                        <div class="progress-track">
+                            <div class="progress-fill" id="overallProgressFill"></div>
+                        </div>
+                        <span class="progress-label" id="overallProgressLabel">0 / 0 已完成</span>
+                    </div>
+                </div>
+
+                <!-- 阶段时间线 -->
+                <div class="roadmap-timeline" id="agentRoadmapTimeline">
+                    <!-- 动态渲染 -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+        <!-- 联系 -->
     <section id="contact" class="section section-alt">
         <div class="container">
             <h2 class="section-title">
-                <span class="title-number">08.</span> 联系我
+                <span class="title-number">10.</span> 联系我
             </h2>
             <div class="contact-content">
                 <div class="contact-text">

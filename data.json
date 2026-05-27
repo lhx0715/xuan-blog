@@ -222,5 +222,139 @@
       "design": "设计",
       "creative": "创意"
     }
-  }
+  },
+  "agentRoadmap": [
+    {
+      "id": "phase-1",
+      "title": "深挖控制流与沙箱安全",
+      "icon": "fas fa-shield-alt",
+      "knowledgePoints": [
+        {
+          "name": "Agent 控制流模式（ReAct / Plan-and-Execute / Tree-of-Thought）",
+          "status": "未开始"
+        },
+        {
+          "name": "工具调用的权限边界与最小权限原则",
+          "status": "未开始"
+        },
+        {
+          "name": "代码沙箱隔离（Docker / gVisor / Firecracker）",
+          "status": "未开始"
+        },
+        {
+          "name": "Prompt Injection 防御与输入消毒",
+          "status": "未开始"
+        },
+        {
+          "name": "Agent 循环终止条件与超时熔断机制",
+          "status": "未开始"
+        }
+      ],
+      "project": {
+        "projectName": "",
+        "githubLink": "",
+        "demoLink": ""
+      },
+      "insights": ""
+    },
+    {
+      "id": "phase-2",
+      "title": "精准数据路由",
+      "icon": "fas fa-project-diagram",
+      "knowledgePoints": [
+        {
+          "name": "RAG 架构设计（检索增强生成）",
+          "status": "未开始"
+        },
+        {
+          "name": "向量数据库选型（Milvus / Qdrant / Chroma）",
+          "status": "未开始"
+        },
+        {
+          "name": "Embedding 模型与语义检索优化",
+          "status": "未开始"
+        },
+        {
+          "name": "多源数据路由与上下文窗口管理",
+          "status": "未开始"
+        },
+        {
+          "name": "Chunking 策略与重排序（Reranking）",
+          "status": "未开始"
+        }
+      ],
+      "project": {
+        "projectName": "",
+        "githubLink": "",
+        "demoLink": ""
+      },
+      "insights": ""
+    },
+    {
+      "id": "phase-3",
+      "title": "从黑盒框架走向白盒图结构",
+      "icon": "fas fa-sitemap",
+      "knowledgePoints": [
+        {
+          "name": "LangGraph / CrewAI 等框架源码剖析",
+          "status": "未开始"
+        },
+        {
+          "name": "有向无环图（DAG）任务编排",
+          "status": "未开始"
+        },
+        {
+          "name": "状态机驱动的多步推理",
+          "status": "未开始"
+        },
+        {
+          "name": "自定义 Tool/Function Calling 协议设计",
+          "status": "未开始"
+        },
+        {
+          "name": "Agent 可观测性与执行链路追踪",
+          "status": "未开始"
+        }
+      ],
+      "project": {
+        "projectName": "",
+        "githubLink": "",
+        "demoLink": ""
+      },
+      "insights": ""
+    },
+    {
+      "id": "phase-4",
+      "title": "生产级 LLMOps",
+      "icon": "fas fa-rocket",
+      "knowledgePoints": [
+        {
+          "name": "LLM 应用的 CI/CD 流水线",
+          "status": "未开始"
+        },
+        {
+          "name": "模型版本管理与 A/B 测试",
+          "status": "未开始"
+        },
+        {
+          "name": "成本监控与 Token 用量优化",
+          "status": "未开始"
+        },
+        {
+          "name": "Agent 评测体系（自动评估 + 人工标注）",
+          "status": "未开始"
+        },
+        {
+          "name": "灰度发布、回滚与灾备策略",
+          "status": "未开始"
+        }
+      ],
+      "project": {
+        "projectName": "",
+        "githubLink": "",
+        "demoLink": ""
+      },
+      "insights": ""
+    }
+  ]
 }

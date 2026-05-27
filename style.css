@@ -1467,3 +1467,559 @@ footer {
 .work-card:nth-child(5) { animation-delay: 0.5s; }
 .work-card:nth-child(6) { animation-delay: 0.6s; }
 
+
+
+/* ==================== AI Agent 进阶看板 ==================== */
+
+.agent-roadmap-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* 概览统计卡片 */
+.roadmap-overview {
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.08), rgba(99, 102, 241, 0.08));
+    border: 1px solid rgba(6, 182, 212, 0.2);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.roadmap-overview::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--cyan), var(--accent), var(--green));
+}
+
+.roadmap-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.roadmap-stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.roadmap-stat-ring {
+    position: relative;
+    width: 100px;
+    height: 100px;
+}
+
+.roadmap-stat-ring svg {
+    transform: rotate(-90deg);
+    width: 100%;
+    height: 100%;
+}
+
+.ring-bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.06);
+    stroke-width: 8;
+}
+
+.ring-fill {
+    fill: none;
+    stroke: var(--cyan);
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 326.73;
+    stroke-dashoffset: 326.73;
+    transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.5));
+}
+
+.ring-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-mono);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--cyan);
+    text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+}
+
+.roadmap-stat-number {
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent-light);
+    text-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+}
+
+.roadmap-stat-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+}
+
+/* 总进度条 */
+.roadmap-progress-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.progress-track {
+    flex: 1;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--cyan), var(--green));
+    border-radius: 4px;
+    transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 12px rgba(34, 197, 94, 0.4);
+    position: relative;
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3));
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+
+.progress-label {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+/* 时间线 */
+.roadmap-timeline {
+    position: relative;
+    padding-left: 2rem;
+}
+
+.roadmap-phase {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.phase-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    flex-shrink: 0;
+    width: 40px;
+}
+
+.connector-line {
+    position: absolute;
+    top: 0;
+    bottom: -2rem;
+    width: 2px;
+    background: linear-gradient(180deg, rgba(6, 182, 212, 0.3), rgba(99, 102, 241, 0.1));
+}
+
+.roadmap-phase:last-child .connector-line {
+    display: none;
+}
+
+.connector-dot {
+    position: relative;
+    z-index: 2;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.roadmap-phase.locked .connector-dot {
+    background: rgba(113, 113, 122, 0.2);
+    border: 2px solid rgba(113, 113, 122, 0.3);
+    color: var(--text-muted);
+}
+
+.roadmap-phase.in-progress .connector-dot {
+    background: rgba(6, 182, 212, 0.2);
+    border: 2px solid var(--cyan);
+    color: var(--cyan);
+    box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+    animation: pulse-glow 2s infinite;
+}
+
+.roadmap-phase.completed .connector-dot {
+    background: rgba(34, 197, 94, 0.2);
+    border: 2px solid var(--green);
+    color: var(--green);
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+}
+
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 15px rgba(6, 182, 212, 0.3); }
+    50% { box-shadow: 0 0 25px rgba(6, 182, 212, 0.5); }
+}
+
+/* 阶段卡片 */
+.phase-card {
+    flex: 1;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.phase-card:hover {
+    border-color: rgba(6, 182, 212, 0.3);
+    box-shadow: 0 4px 30px rgba(6, 182, 212, 0.08);
+    transform: translateY(-2px);
+}
+
+.roadmap-phase.completed .phase-card {
+    border-color: rgba(34, 197, 94, 0.2);
+}
+
+.roadmap-phase.completed .phase-card:hover {
+    border-color: rgba(34, 197, 94, 0.4);
+    box-shadow: 0 4px 30px rgba(34, 197, 94, 0.08);
+}
+
+.phase-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.05), transparent);
+    border-bottom: 1px solid var(--border);
+}
+
+.phase-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    background: rgba(6, 182, 212, 0.1);
+    color: var(--cyan);
+    border: 1px solid rgba(6, 182, 212, 0.2);
+    flex-shrink: 0;
+}
+
+.roadmap-phase.completed .phase-icon {
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--green);
+    border-color: rgba(34, 197, 94, 0.2);
+}
+
+.phase-info {
+    flex: 1;
+}
+
+.phase-number {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.roadmap-phase.completed .phase-number {
+    color: var(--green);
+}
+
+.phase-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.phase-progress-badge {
+    flex-shrink: 0;
+}
+
+.badge-percent {
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--cyan);
+    padding: 0.3rem 0.8rem;
+    background: rgba(6, 182, 212, 0.1);
+    border-radius: 20px;
+    border: 1px solid rgba(6, 182, 212, 0.2);
+}
+
+.roadmap-phase.completed .badge-percent {
+    color: var(--green);
+    background: rgba(34, 197, 94, 0.1);
+    border-color: rgba(34, 197, 94, 0.2);
+}
+
+/* 阶段进度条 */
+.phase-progress-bar {
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.phase-progress-track {
+    flex: 1;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.phase-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--cyan), var(--accent-light));
+    border-radius: 2px;
+    transition: width 1s ease;
+}
+
+.roadmap-phase.completed .phase-progress-fill {
+    background: linear-gradient(90deg, var(--green), #4ade80);
+}
+
+.phase-progress-text {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+/* 卡片内容 */
+.phase-body {
+    padding: 1.5rem;
+}
+
+.knowledge-points {
+    margin-bottom: 1.5rem;
+}
+
+.kp-title, .project-title, .insights-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.kp-title i { color: var(--cyan); }
+.project-title i { color: var(--accent-light); }
+.insights-title i { color: var(--orange); }
+
+.kp-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.kp-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.kp-item:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.kp-item i {
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    width: 18px;
+    text-align: center;
+}
+
+.kp-item span:first-of-type {
+    flex: 1;
+}
+
+.kp-status {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.kp-item.done {
+    color: var(--text-secondary);
+}
+
+.kp-item.done i {
+    color: var(--green);
+}
+
+.kp-item.done .kp-status {
+    color: var(--green);
+    background: rgba(34, 197, 94, 0.1);
+}
+
+.kp-item.active {
+    color: var(--text-primary);
+}
+
+.kp-item.active i {
+    color: var(--cyan);
+    animation: pulse-glow 2s infinite;
+}
+
+.kp-item.active .kp-status {
+    color: var(--cyan);
+    background: rgba(6, 182, 212, 0.1);
+}
+
+.kp-item.pending {
+    color: var(--text-muted);
+}
+
+.kp-item.pending i {
+    color: var(--text-muted);
+}
+
+.kp-item.pending .kp-status {
+    color: var(--text-muted);
+    background: rgba(113, 113, 122, 0.1);
+}
+
+/* 项目信息 */
+.phase-project {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(99, 102, 241, 0.05);
+    border: 1px solid rgba(99, 102, 241, 0.1);
+    border-radius: 10px;
+}
+
+.project-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.project-name {
+    font-weight: 600;
+    color: var(--accent-light);
+}
+
+.project-links {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.project-link:hover {
+    color: var(--accent-light);
+    border-color: var(--accent);
+    background: rgba(99, 102, 241, 0.1);
+}
+
+/* 学习感想 */
+.phase-insights {
+    padding: 1rem;
+    background: rgba(249, 115, 22, 0.05);
+    border: 1px solid rgba(249, 115, 22, 0.1);
+    border-radius: 10px;
+}
+
+.insights-content {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.8;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    .roadmap-stats {
+        gap: 1.5rem;
+    }
+
+    .roadmap-stat-ring {
+        width: 80px;
+        height: 80px;
+    }
+
+    .ring-text {
+        font-size: 1.1rem;
+    }
+
+    .roadmap-timeline {
+        padding-left: 0.5rem;
+    }
+
+    .phase-header {
+        flex-wrap: wrap;
+    }
+
+    .phase-title {
+        font-size: 1rem;
+    }
+
+    .kp-item {
+        font-size: 0.85rem;
+    }
+
+    .project-info {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
